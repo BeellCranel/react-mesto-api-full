@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi, errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('../middlewares/logger');
 const userRouter = require('./users');
 const cardRouter = require('./cards');
 const { createUser, login } = require('../controllers/users');
@@ -8,6 +9,12 @@ const errorHandler = require('../middlewares/errorHandler');
 const regex = require('../utils/regex');
 const NotFoundError = require('../errors/NotFounError');
 
+router.use(requestLogger);
+router.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 router.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().default('Жак-Ив Кусто').min(2).max(30),
@@ -29,6 +36,7 @@ router.use('/', cardRouter);
 router.use('*', (req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден'));
 });
+router.use(errorLogger);
 router.use(errors()); // обработчик ошибок celebrate
 router.use(errorHandler);
 
