@@ -1,11 +1,10 @@
+const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const BadReqError = require('../errors/BedReqError');
 const NotFoundError = require('../errors/NotFounError');
 const ConflictError = require('../errors/ConflictError');
-
-const JWT_SECRET = 'verysecretpassword';
 
 const findUsers = (req, res, next) => {
   User.find({})
@@ -101,10 +100,12 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       return res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
+        sameSite: 'none',
+        secure: true,
       })
         .status(200).send({
           data: {
@@ -117,6 +118,17 @@ const login = (req, res, next) => {
         });
     })
     .catch(next);
+};
+
+const logout = (req, res, next) => {
+  res.clearCookies('jwt', {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+  })
+    .status(200)
+    .send({ message: 'Выход выполнен' });
+  next();
 };
 
 const updateUser = (req, res, next) => {
@@ -182,6 +194,7 @@ module.exports = {
   findUserById,
   createUser,
   login,
+  logout,
   updateUser,
   updateAvatar,
 };
