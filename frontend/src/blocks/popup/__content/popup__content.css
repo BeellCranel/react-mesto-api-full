@@ -1,0 +1,20 @@
+.popup__content {
+  background-color: #fff;
+  max-width: 430px;
+  width: 100%;
+  border-radius: 10px;
+  box-sizing: border-box;
+  position: relative;
+  padding: 0 36px;
+}
+
+.popup__content:hover {
+  cursor: auto;
+}
+
+@media screen and (max-width: 630px) {
+  .popup__content {
+    max-width: 282px;
+    padding: 0 10px;
+  }
+}

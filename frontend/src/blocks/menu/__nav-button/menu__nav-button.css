@@ -1,0 +1,20 @@
+.menu__nav-button {
+  display: none;
+}
+
+.menu__nav-button:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 630px) {
+  .menu__nav-button {
+    display: block;
+    background-image: url("../../../images/header/__nav-button/nav-button.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border-style: none;
+    width: 22px;
+    height: 20px;
+  }
+}
