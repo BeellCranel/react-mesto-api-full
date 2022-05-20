@@ -1,0 +1,19 @@
+.form__submit_theme_dark {
+  margin-top: 216px;
+  background-color: rgb(255, 255, 255, 1);
+  color: #000;
+}
+
+@keyframes black {
+  from {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  to {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.form__submit_theme_dark:hover {
+  animation: black 0.3s ease forwards;
+}

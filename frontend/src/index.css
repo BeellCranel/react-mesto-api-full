@@ -1,0 +1,147 @@
+@import url(./vendor/normalize.css);
+
+@import url(./vendor/fonts/fonts.css);
+
+@import url(./blocks/page/page.css);
+
+@import url(./blocks/content/content.css);
+
+/* nav-popup */
+
+@import url(./blocks/nav-popup/nav-popup.css);
+
+@import url(./blocks/nav-popup/_opened/nav-popup_opened.css);
+
+/* header */
+
+@import url(./blocks/header/header.css);
+
+@import url(./blocks/logo/logo.css);
+
+/* menu */
+
+@import url(./blocks/menu/menu.css);
+
+@import url(./blocks/menu/__item/menu__item.css);
+
+@import url(./blocks/menu/__item/_exit/menu__item_exit.css);
+
+@import url(./blocks/menu/__item/_email/menu__item_email.css);
+
+@import url(./blocks/menu/__item/_disabled/menu__item_disabled.css);
+
+@import url(./blocks/menu/__nav-button/menu__nav-button.css);
+
+@import url(./blocks/menu/__nav-button/_close/menu__nav-button_close.css);
+
+/* login */
+
+@import url(./blocks/form-container/form-container.css);
+
+/* profile */
+
+@import url(./blocks/profile/profile.css);
+
+@import url(./blocks/profile/__image-hover/profile__image-hover.css);
+
+@import url(./blocks/profile/__image/profile__image.css);
+
+@import url(./blocks/profile/__info/profile__info.css);
+
+@import url(./blocks/profile/__user-name/profile__user-name.css);
+
+@import url(./blocks/profile/__edit-button/profile__edit-button.css);
+
+@import url(./blocks/profile/__user-description/profile__user-description.css);
+
+@import url(./blocks/profile/__add-button/profile__add-button.css);
+
+@import url(./blocks/opacity/opacity.css);
+
+/* grid-cards */
+
+@import url(./blocks/grid-cards/grid-cards.css);
+
+@import url(./blocks/grid-card/grid-card.css);
+
+@import url(./blocks/grid-card/__delete-button/grid-card__delete-button.css);
+
+@import url(./blocks/grid-card/__delete-button/_inactive/grid-card__delete-button_active.css);
+
+@import url(./blocks/grid-card/__image/grid-card__image.css);
+
+@import url(./blocks/grid-card/__caption/grid-card__caption.css);
+
+@import url(./blocks/grid-card/__title/grid-card__title.css);
+
+@import url(./blocks/grid-card/__like-section/grid-card__like-section.css);
+
+@import url(./blocks/grid-card/__like-button/grid-card__like-button.css);
+
+@import url(./blocks/grid-card/__like-button/_active/grid-card__like-button_active.css);
+
+@import url(./blocks/grid-card/__likes-count/grid-card__likes-count.css);
+
+/* footer */
+
+@import url(./blocks/footer/footer.css);
+
+@import url(./blocks/footer/__author/footer__author.css);
+
+/* popup */
+
+@import url(./blocks/popup/popup.css);
+
+@import url(./blocks/popup/_image/popup_image.css);
+
+@import url(./blocks/popup/_opened/popup_opened.css);
+
+@import url(./blocks/popup/__content/popup__content.css);
+
+@import url(./blocks/popup/__close-button/popup__close-button.css);
+
+@import url(./blocks/popup/__info-tooltip/popup__info-tooltip.css);
+
+@import url(./blocks/form/form.css);
+
+@import url(./blocks/form/__info-icon/form__info-icon.css);
+
+@import url(./blocks/form/__info-icon/_success/form__info-icon_success.css);
+
+@import url(./blocks/form/__info-icon/_fail/form__info-icon_fail.css);
+
+@import url(./blocks/form/__margin/form__margin.css);
+
+@import url(./blocks/form/__title/form__title.css);
+
+@import url(./blocks/form/__title/_theme/form__title_theme_dark.css);
+
+@import url(./blocks/form/__submit/form__submit.css);
+
+@import url(./blocks/form/__submit/_theme/form__submit_theme_dark.css);
+
+@import url(./blocks/form/__submit/_inactive/form__submit_inactive.css);
+
+@import url(./blocks/form/__fieldset/form__fieldset.css);
+
+@import url(./blocks/form/__fieldset/_avatar/form__fieldset_avatar.css);
+
+@import url(./blocks/form/__field/form__field.css);
+
+@import url(./blocks/form/__input/form__input.css);
+
+@import url(./blocks/form/__input/_theme/form__input_theme_dark.css);
+
+@import url(./blocks/form/__input/_type/form__input_type_error.css);
+
+@import url(./blocks/form/__error/form__error.css);
+
+@import url(./blocks/form/__link/form__link.css);
+
+/* figure */
+
+@import url(./blocks/figure/figure.css);
+
+@import url(./blocks/figure/__image/figure__image.css);
+
+@import url(./blocks/figure/__image-caption/figure__image-caption.css);

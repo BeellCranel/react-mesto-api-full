@@ -1,0 +1,9 @@
+.grid-card__image {
+  width: 282px;
+  height: 282px;
+  object-fit: cover;
+}
+
+.grid-card__image:hover {
+  cursor: pointer;
+}

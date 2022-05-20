@@ -1,0 +1,20 @@
+.menu__nav-button_close {
+  display: none;
+}
+
+.menu__nav-button_close:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 630px) {
+  .menu__nav-button_close {
+    display: block;
+    background-image: url("../../../../images/popup/__close-button/close-button.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border-style: none;
+    width: 20px;
+    height: 20px;
+  }
+}

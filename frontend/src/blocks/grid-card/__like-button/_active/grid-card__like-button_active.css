@@ -1,0 +1,25 @@
+.grid-card__like-button_active {
+  background-image: url("../../../../images/grid-card/__like-button/_active/like-button-active.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+  border-style: none;
+  width: 22px;
+  height: 19px;
+  margin-bottom: 3px;
+}
+
+.grid-card__like-button_active:hover {
+  cursor: pointer;
+  animation: like 0.3s ease forwards;
+}
+
+@keyframes like {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.5;
+  }
+}
