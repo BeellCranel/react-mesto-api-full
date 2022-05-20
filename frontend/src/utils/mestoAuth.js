@@ -1,4 +1,4 @@
-const baseUrl = "https://auth.nomoreparties.co";
+export const BASE_URL = "api.mine-mesto.nomoredomains.xyz";
 
 function checkResponse(response) {
   if (response.ok) {
@@ -10,10 +10,9 @@ function checkResponse(response) {
 }
 
 export function register(email, password) {
-  return fetch(`${baseUrl}/signup`, {
+  return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -24,12 +23,12 @@ export function register(email, password) {
 }
 
 export function login(identifier, password) {
-  return fetch(`${baseUrl}/signin`, {
+  return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify({
       password: password,
       email: identifier,
@@ -37,14 +36,22 @@ export function login(identifier, password) {
   }).then(checkResponse);
 }
 
-export function getContent(token) {
-  return fetch(`${baseUrl}/users/me`, {
+export const logout = () => {
+  return fetch(`${BASE_URL}/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  }).then(checkResponse);
+};
+
+export function getContent() {
+  return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
-  })
-    .then(checkResponse);
+    credentials: "include",
+  }).then(checkResponse);
 }
