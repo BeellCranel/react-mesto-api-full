@@ -1,9 +1,7 @@
-import { BASE_URL } from "./mestoAuth";
-
 class Api {
-  constructor({ adress, headers }) {
+  constructor({ adress, token }) {
     this._adress = adress;
-    this._headers = headers;
+    this._token = token;
   }
 
   _getResponseData(res) {
@@ -15,25 +13,27 @@ class Api {
 
   getUserInfo() {
     return fetch(`${this._adress}/users/me`, {
-      method: "GET",
-      credentials: "include",
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+      },
     }).then(this._getResponseData);
   }
 
   getCards() {
     return fetch(`${this._adress}/cards`, {
-      method: "GET",
-      credentials: "include",
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+      },
     }).then(this._getResponseData);
   }
 
   editInfo(name, description) {
     return fetch(`${this._adress}/users/me`, {
       method: "PATCH",
-      credentials: "include",
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: name,
         about: description,
@@ -44,8 +44,10 @@ class Api {
   uploadCard(cardName, cardLink) {
     return fetch(`${this._adress}/cards`, {
       method: "POST",
-      credentials: "include",
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: cardName,
         link: cardLink,
@@ -56,8 +58,9 @@ class Api {
   deleteCard(cardId) {
     return fetch(`${this._adress}/cards/${cardId}`, {
       method: "DELETE",
-      credentials: "include",
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+      },
     }).then(this._getResponseData);
   }
 
@@ -65,14 +68,16 @@ class Api {
     if (isLiked) {
       return fetch(`${this._adress}/cards/${cardId}/likes`, {
         method: "PUT",
-        credentials: "include",
-        headers: this._headers,
+        headers: {
+          authorization: this._token,
+        },
       }).then(this._getResponseData);
     } else {
       return fetch(`${this._adress}/cards/${cardId}/likes`, {
         method: "DELETE",
-        credentials: "include",
-        headers: this._headers,
+        headers: {
+          authorization: this._token,
+        },
       }).then(this._getResponseData);
     }
   }
@@ -80,8 +85,10 @@ class Api {
   changeAvatar(link) {
     return fetch(`${this._adress}/users/me/avatar`, {
       method: "PATCH",
-      credentials: "include",
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         avatar: link,
       }),
@@ -90,10 +97,8 @@ class Api {
 }
 
 const api = new Api({
-  adress: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  adress: "https://mesto.nomoreparties.co/v1/cohort-35",
+  token: "2602973a-2e71-4598-8f16-eafce852daf4",
 });
 
 export default api;

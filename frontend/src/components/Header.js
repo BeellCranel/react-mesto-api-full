@@ -2,7 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
 
-function Header({ isOpen, onClose, isNavPopupOpen, handleLogout }) {
+function Header({
+  isOpen,
+  onClose,
+  isNavPopupOpen,
+  userData,
+  handleLogout,
+}) {
   return (
     <header className="header">
       <Link className="logo opacity" to="/" />
@@ -10,6 +16,7 @@ function Header({ isOpen, onClose, isNavPopupOpen, handleLogout }) {
         isOpen={isOpen}
         onClose={onClose}
         isNavPopupOpen={isNavPopupOpen}
+        userData={userData}
         handleLogout={handleLogout}
       />
     </header>

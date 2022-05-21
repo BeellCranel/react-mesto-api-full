@@ -35,7 +35,7 @@ function App() {
   // стэйт основных данных
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-  // const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
 
@@ -44,20 +44,6 @@ function App() {
   useEffect(() => {
     tokenCheck();
   }, []);
-
-  function tokenCheck() {
-    mestoAuth
-      .getContent()
-      .then((data) => {
-        if (data) {
-          setLoggedIn(true);
-          history.push("/main");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
   // загрузка профеля пользователя и карточек
   useEffect(() => {
@@ -107,9 +93,8 @@ function App() {
     mestoAuth
       .login(email, password)
       .then((data) => {
-        if (data) {
-          setLoggedIn(true);
-        }
+        localStorage.setItem("jwt", data.token);
+        tokenCheck();
       })
       .catch((err) => {
         setIsSuccessMessageTog(false);
@@ -118,19 +103,28 @@ function App() {
       });
   }
 
+  function tokenCheck() {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      mestoAuth
+        .getContent(jwt)
+        .then((res) => {
+          setUserData({
+            userEmail: res.data.email,
+          });
+          setLoggedIn(true);
+          history.push("/main");
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
+  }
+
   function handleLogout() {
-    mestoAuth
-      .logout()
-      .then((data) => {
-        if (data) {
-          setLoggedIn(false);
-          setCurrentUser(null);
-          history.push("/sign-in");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    localStorage.removeItem("jwt");
+    history.push("/sign-in");
+    setLoggedIn(false);
   }
 
   // функционал регистрации
@@ -146,7 +140,7 @@ function App() {
       .catch((err) => {
         setIsSuccessMessageTog(false);
         handleInfoTooltipOpen();
-        console.log(err);
+        console.log(err.error);
       });
   }
 
@@ -259,12 +253,14 @@ function App() {
           isOpen={isNavPopupOpen}
           onClose={closeAllPopups}
           handleLogout={handleLogout}
+          userData={userData}
         />
 
         <Header
           isOpen={handleNavPopupOpen}
           onClose={closeAllPopups}
           isNavPopupOpen={isNavPopupOpen}
+          userData={userData}
           handleLogout={handleLogout}
         />
 

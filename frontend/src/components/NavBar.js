@@ -1,10 +1,13 @@
 import React from "react";
 import { Route, Link } from "react-router-dom";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function NavBar({ isOpen, onClose, isNavPopupOpen, handleLogout }) {
-  const currentUser = React.useContext(CurrentUserContext);
-
+function NavBar({
+  isOpen,
+  onClose,
+  isNavPopupOpen,
+  userData,
+  handleLogout,
+}) {
   function handleTogglePopup() {
     if (!isNavPopupOpen) {
       isOpen();
@@ -22,7 +25,7 @@ function NavBar({ isOpen, onClose, isNavPopupOpen, handleLogout }) {
       <Route path="/main">
         <>
           <div className="menu__item menu__item_email menu__item_disabled">
-            {currentUser.data.email}
+            {userData.userEmail}
           </div>
           <div
             className="menu__item menu__item_exit menu__item_disabled opacity"
