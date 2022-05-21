@@ -1,4 +1,4 @@
-import baseUrl from "./mestoAuth";
+import { baseUrl } from "./mestoAuth";
 
 class Api {
   constructor({ adress, token }) {
