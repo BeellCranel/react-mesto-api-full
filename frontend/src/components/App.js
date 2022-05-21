@@ -109,9 +109,7 @@ function App() {
       mestoAuth
         .getContent(jwt)
         .then((res) => {
-          setUserData({
-            userEmail: res.data.email,
-          });
+          setUserData(res.email);
           setLoggedIn(true);
           history.push("/main");
         })
@@ -173,10 +171,7 @@ function App() {
     api
       .changeAvatar(link)
       .then((userInfo) => {
-        setCurrentUser({
-          ...currentUser,
-          ...userInfo,
-        });
+        setCurrentUser(userInfo);
         closeAllPopups();
       })
       .catch((err) => {

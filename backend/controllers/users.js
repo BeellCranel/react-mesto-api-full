@@ -9,7 +9,7 @@ const UnauthorizationError = require('../errors/UnauthorizedError');
 
 const findUsers = (req, res, next) => {
   User.find({})
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch(next);
 };
 
@@ -17,7 +17,7 @@ const findUserBySelfId = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) throw new NotFoundError('Пользователь по указанному _id не найден');
-      return res.status(200).send({ user });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -78,7 +78,7 @@ const login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-      return res.status(200).send(token);
+      return res.status(200).send({ token });
     })
     .catch((err) => {
       if (err.name === 'Unauthorized') {
