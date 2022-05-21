@@ -3,7 +3,7 @@ const { celebrate, Joi, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('../middlewares/logger');
 const userRouter = require('./users');
 const cardRouter = require('./cards');
-const { createUser, login, logout } = require('../controllers/users');
+const { createUser, login } = require('../controllers/users');
 const auth = require('../middlewares/auth');
 const errorHandler = require('../middlewares/errorHandler');
 const regex = require('../utils/regex');
@@ -33,7 +33,6 @@ router.post('/signin', celebrate({
 router.use(auth);
 router.use('/', userRouter);
 router.use('/', cardRouter);
-router.post('/logout', logout);
 router.use('*', (req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден'));
 });
