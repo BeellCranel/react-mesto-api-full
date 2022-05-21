@@ -5,6 +5,7 @@ const User = require('../models/user');
 const BadReqError = require('../errors/BedReqError');
 const NotFoundError = require('../errors/NotFounError');
 const ConflictError = require('../errors/ConflictError');
+const UnauthorizationError = require('../errors/UnauthorizedError');
 
 const findUsers = (req, res, next) => {
   User.find({})
@@ -101,34 +102,15 @@ const login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-      return res.cookie('jwt', token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-      })
-        .status(200).send({
-          data: {
-            name: user.name,
-            about: user.about,
-            avatar: user.avatar,
-            email: user.email,
-            _id: user._id,
-          },
-        });
+      return res.status(200).send({ token });
     })
-    .catch(next);
-};
-
-const logout = (req, res, next) => {
-  res.clearCookie('jwt', {
-    httpOnly: true,
-    sameSite: 'none',
-    secure: true,
-  })
-    .status(200)
-    .send({ message: 'Выход выполнен' });
-  next();
+    .catch((err) => {
+      if (err.name === 'Unauthorized') {
+        next(new UnauthorizationError('Неправильный льгин или пароль'));
+        return;
+      }
+      next();
+    });
 };
 
 const updateUser = (req, res, next) => {
@@ -194,7 +176,6 @@ module.exports = {
   findUserById,
   createUser,
   login,
-  logout,
   updateUser,
   updateAvatar,
 };
