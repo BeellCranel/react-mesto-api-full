@@ -7,7 +7,7 @@ const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
   Card.create({ name, link, owner })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.status(201).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(
@@ -24,7 +24,7 @@ const deleteCard = (req, res, next) => {
     .then((card) => {
       if (!card) throw new NotFoundError('Карточка с указанным _id не найдена');
       if (card.owner.toString() !== req.user._id.toString()) { throw new ForbiddenError('Карточка создана другим пользователем'); }
-      Card.findByIdAndRemove(req.params.cardId).then(() => res.status(200).send({ data: card }));
+      Card.findByIdAndRemove(req.params.cardId).then(() => res.status(200).send(card));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -37,7 +37,7 @@ const deleteCard = (req, res, next) => {
 
 const getCards = (req, res, next) => {
   Card.find({})
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(200).send(card))
     .catch(next);
 };
 
@@ -49,7 +49,7 @@ const likeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) throw new NotFoundError('Передан несуществующий _id карточки');
-      return res.status(200).send({ data: card });
+      return res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -70,7 +70,7 @@ const dislikeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) throw new NotFoundError('Передан несуществующий _id карточки');
-      return res.status(200).send({ data: card });
+      return res.status(200).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

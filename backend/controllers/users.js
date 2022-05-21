@@ -17,15 +17,7 @@ const findUserBySelfId = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) throw new NotFoundError('Пользователь по указанному _id не найден');
-      return res.status(200).send({
-        data: {
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-          _id: user._id,
-        },
-      });
+      return res.status(200).send({ user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -40,15 +32,7 @@ const findUserById = (req, res, next) => {
   User.findById(req.params.userId)
     .then((user) => {
       if (!user) throw new NotFoundError('Пользователь по указанному _id не найден');
-      return res.status(200).send({
-        data: {
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-          _id: user._id,
-        },
-      });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -75,15 +59,7 @@ const createUser = (req, res, next) => {
       email,
       password: hash,
     }))
-    .then((user) => res.status(201).send({
-      data: {
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        email: user.email,
-        _id: user._id,
-      },
-    }))
+    .then((user) => res.status(201).send(user))
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictError('Такой пользователь уже зарегистрирован'));
@@ -102,7 +78,7 @@ const login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-      return res.status(200).send({ token });
+      return res.status(200).send(token);
     })
     .catch((err) => {
       if (err.name === 'Unauthorized') {
@@ -123,15 +99,7 @@ const updateUser = (req, res, next) => {
   })
     .then((user) => {
       if (!user) throw new NotFoundError('Пользователь с указанным _id не найден');
-      return res.status(200).send({
-        data: {
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-          _id: user._id,
-        },
-      });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -151,15 +119,7 @@ const updateAvatar = (req, res, next) => {
   })
     .then((user) => {
       if (!user) throw new NotFoundError('Пользователь с указанным _id не найден');
-      return res.status(200).send({
-        data: {
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-          email: user.email,
-          _id: user._id,
-        },
-      });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
