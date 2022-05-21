@@ -121,7 +121,7 @@ const login = (req, res, next) => {
 };
 
 const logout = (req, res, next) => {
-  res.clearCookies('jwt', {
+  res.clearCookie('jwt', {
     httpOnly: true,
     sameSite: 'none',
     secure: true,
