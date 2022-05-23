@@ -266,20 +266,19 @@ function App() {
             <Login handleLogin={handleLogin} />
           </Route>
 
-          <Route path="/">
-            <ProtectedRoute
-              path="/main"
-              component={Main}
-              loggedIn={loggedIn}
-              cards={cards}
-              onCardsLike={handleCardLike}
-              onCardClick={handleCardClick}
-              onEditProfile={handleEditProfileClick}
-              onEditAvatar={handleEditAvatarClick}
-              onAddPlace={handleAddPlaceClick}
-              onConfirmDelete={handleConfirmDeleteClick}
-            />
-          </Route>
+          <ProtectedRoute
+            exact
+            path="/main"
+            component={Main}
+            loggedIn={loggedIn}
+            cards={cards}
+            onCardsLike={handleCardLike}
+            onCardClick={handleCardClick}
+            onEditProfile={handleEditProfileClick}
+            onEditAvatar={handleEditAvatarClick}
+            onAddPlace={handleAddPlaceClick}
+            onConfirmDelete={handleConfirmDeleteClick}
+          />
         </Switch>
 
         <Footer />
