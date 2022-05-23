@@ -25,7 +25,7 @@ function NavBar({
       <Route path="/main">
         <>
           <div className="menu__item menu__item_email menu__item_disabled">
-            {userData.userEmail}
+            {userData}
           </div>
           <div
             className="menu__item menu__item_exit menu__item_disabled opacity"

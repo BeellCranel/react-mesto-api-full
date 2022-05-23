@@ -3,12 +3,12 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card({ onCardClick, onConfirmDelete, onCardLike, card }) {
   const currentUser = useContext(CurrentUserContext);
-  const isOwn = card.owner._id === currentUser._id;
+  const isOwn = card.owner === currentUser._id;
   const cardDeleteButtonClassName = `grid-card__delete-button${
     isOwn ? "" : "_inactive"
   } opacity`;
 
-  const isLiked = card.likes.some((i) => i._id === currentUser._id);
+  const isLiked = card.likes.some((i) => i === currentUser._id);
   const cardLikeButtonClassName = `grid-card__like-button${
     isLiked ? "_active" : ""
   }`;

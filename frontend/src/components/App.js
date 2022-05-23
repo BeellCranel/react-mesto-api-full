@@ -39,6 +39,10 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
 
+  function getToken(){
+    return localStorage.getItem("jwt");
+  }
+
   // первичная проверка токена пользователя
 
   useEffect(() => {
@@ -46,25 +50,17 @@ function App() {
   }, []);
 
   // загрузка профеля пользователя и карточек
-  useEffect(() => {
-    if (loggedIn) {
-      api
-        .getUserInfo()
-        .then((userInfo) => {
-          setCurrentUser(userInfo);
-        })
-        .catch((err) => {
-          console.log(`Ошибка получения данных о пользователе: ${err}`);
-        });
 
-      api
-        .getCards()
-        .then((cardsArr) => {
-          setCards(cardsArr);
-        })
-        .catch((err) => {
-          console.log(`Ошибка загрузки карточек с сервера: ${err}`);
-        });
+  useEffect(() => {
+    if(loggedIn){
+      Promise.all([api.getUserInfo(getToken()), api.getCards(getToken())])
+       .then(([userInfo, initialCards]) => {
+         setCurrentUser(userInfo);
+         setCards(initialCards);
+       })
+       .catch((err) => {
+         console.log(err);
+       });
     }
   }, [loggedIn]);
 
@@ -104,13 +100,12 @@ function App() {
   }
 
   function tokenCheck() {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
+    if (getToken()) {
       mestoAuth
-        .getContent(jwt)
+        .getContent(getToken())
         .then((res) => {
-          setUserData(res.email);
           setLoggedIn(true);
+          setUserData(res.email);
           history.push("/main");
         })
         .catch((err) => {
@@ -169,7 +164,7 @@ function App() {
 
   function handleUpdateAvatar(link) {
     api
-      .changeAvatar(link)
+      .changeAvatar(link, getToken())
       .then((userInfo) => {
         setCurrentUser(userInfo);
         closeAllPopups();
@@ -187,7 +182,7 @@ function App() {
 
   function handleUpdateUser(name, description) {
     api
-      .editInfo(name, description)
+      .editInfo(name, description, getToken())
       .then((userInfo) => {
         setCurrentUser(userInfo);
         closeAllPopups();
@@ -205,9 +200,9 @@ function App() {
 
   function handleAddPlaceSubmit(place, url) {
     api
-      .uploadCard(place, url)
+      .uploadCard(place, url, getToken())
       .then((card) => {
-        setCards([card, ...cards]);
+        setCards([...cards, card]);
         closeAllPopups();
       })
       .catch((err) => {
@@ -219,7 +214,7 @@ function App() {
 
   function handleCardDelete(card) {
     api
-      .deleteCard(card._id)
+      .deleteCard(card._id, getToken())
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== card._id));
       })
@@ -230,7 +225,7 @@ function App() {
 
   function handleCardLike(card, isLiked) {
     api
-      .changeLikeCardStatus(card._id, !isLiked)
+      .changeLikeCardStatus(card._id, !isLiked, getToken())
       .then((newCard) => {
         setCards((state) =>
           state.map((c) => (c._id === card._id ? newCard : c))

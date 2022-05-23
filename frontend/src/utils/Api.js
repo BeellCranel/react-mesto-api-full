@@ -1,9 +1,8 @@
 import { baseUrl } from "./mestoAuth";
 
 class Api {
-  constructor({ adress, token }) {
+  constructor({ adress }) {
     this._adress = adress;
-    this._token = token;
   }
 
   _getResponseData(res) {
@@ -13,29 +12,29 @@ class Api {
     return res.json();
   }
 
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(`${this._adress}/users/me`, {
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     }).then(this._getResponseData);
   }
 
-  getCards() {
+  getCards(token) {
     return fetch(`${this._adress}/cards`, {
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     }).then(this._getResponseData);
   }
 
-  editInfo(name, description) {
+  editInfo(name, description, token) {
     return fetch(`${this._adress}/users/me`, {
       method: "PATCH",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -45,11 +44,11 @@ class Api {
     }).then(this._getResponseData);
   }
 
-  uploadCard(cardName, cardLink) {
+  uploadCard(cardName, cardLink, token) {
     return fetch(`${this._adress}/cards`, {
       method: "POST",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -59,22 +58,22 @@ class Api {
     }).then(this._getResponseData);
   }
 
-  deleteCard(cardId) {
+  deleteCard(cardId, token) {
     return fetch(`${this._adress}/cards/${cardId}`, {
       method: "DELETE",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     }).then(this._getResponseData);
   }
 
-  changeLikeCardStatus(cardId, isLiked) {
+  changeLikeCardStatus(cardId, isLiked, token) {
     if (isLiked) {
       return fetch(`${this._adress}/cards/${cardId}/likes`, {
         method: "PUT",
         headers: {
-          authorization: this._token,
+          authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }).then(this._getResponseData);
@@ -82,18 +81,18 @@ class Api {
       return fetch(`${this._adress}/cards/${cardId}/likes`, {
         method: "DELETE",
         headers: {
-          authorization: this._token,
+          authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }).then(this._getResponseData);
     }
   }
 
-  changeAvatar(link) {
+  changeAvatar(link, token) {
     return fetch(`${this._adress}/users/me/avatar`, {
       method: "PATCH",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -105,7 +104,6 @@ class Api {
 
 const api = new Api({
   adress: baseUrl,
-  token: `Bearer ${localStorage.getItem("jwt")}`,
 });
 
 export default api;

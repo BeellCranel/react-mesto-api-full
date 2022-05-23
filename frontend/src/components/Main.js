@@ -23,7 +23,7 @@ function Main({
         key={card._id}
       />
     );
-  });
+  }).reverse();
 
   return (
     <main className="content">
