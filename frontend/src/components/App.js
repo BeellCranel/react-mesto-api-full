@@ -255,17 +255,6 @@ function App() {
         />
 
         <Switch>
-          <Route path="/sign-up">
-            <Register
-              handleRegister={handleRegister}
-              handleInfoTooltipOpen={handleInfoTooltipOpen}
-            />
-          </Route>
-
-          <Route path="/sign-in">
-            <Login handleLogin={handleLogin} />
-          </Route>
-
           <ProtectedRoute
             exact
             path="/main"
@@ -279,6 +268,17 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onConfirmDelete={handleConfirmDeleteClick}
           />
+
+          <Route path="/sign-up">
+            <Register
+              handleRegister={handleRegister}
+              handleInfoTooltipOpen={handleInfoTooltipOpen}
+            />
+          </Route>
+
+          <Route path="/sign-in">
+            <Login handleLogin={handleLogin} />
+          </Route>
         </Switch>
 
         <Footer />
