@@ -1,4 +1,4 @@
-export const baseUrl = "http://51.250.18.80:3000";
+export const baseUrl = "https://api.mine-mesto.nomoredomains.xyz";
 
 function checkResponse(response) {
   if (response.ok) {
