@@ -50,7 +50,7 @@
 - [ссылка на мою работу](https://mine-mesto.nomoredomains.xyz/)
 - домен фронта: mine-mesto.nomoredomains.xyz
 - домен бэка: api.mine-mesto.nomoredomains.xyz
- -публичный IP-адрес: 51.250.104.42
+- публичный IP-адрес: 51.250.104.42
 
 ### Статус
 
