@@ -39,7 +39,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
 
-  function getToken(){
+  function getToken() {
     return localStorage.getItem("jwt");
   }
 
@@ -52,15 +52,15 @@ function App() {
   // загрузка профеля пользователя и карточек
 
   useEffect(() => {
-    if(loggedIn){
+    if (loggedIn) {
       Promise.all([api.getUserInfo(getToken()), api.getCards(getToken())])
-       .then(([userInfo, initialCards]) => {
-         setCurrentUser(userInfo);
-         setCards(initialCards);
-       })
-       .catch((err) => {
-         console.log(err);
-       });
+        .then(([userInfo, initialCards]) => {
+          setCurrentUser(userInfo);
+          setCards(initialCards);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [loggedIn]);
 
