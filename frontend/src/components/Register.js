@@ -45,7 +45,7 @@ function Register({ handleRegister }) {
               <input
                 className="form__input form__input_theme_dark"
                 id="login-password"
-                type="text"
+                type="password"
                 name="password"
                 value={password}
                 onChange={handleChange}
