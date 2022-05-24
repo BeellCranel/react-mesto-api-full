@@ -6,17 +6,15 @@ function Header({
   isOpen,
   onClose,
   isNavPopupOpen,
-  userData,
   handleLogout,
 }) {
   return (
     <header className="header">
-      <Link className="logo opacity" to="/" />
+      <Link className="logo opacity" to="/main" />
       <NavBar
         isOpen={isOpen}
         onClose={onClose}
         isNavPopupOpen={isNavPopupOpen}
-        userData={userData}
         handleLogout={handleLogout}
       />
     </header>

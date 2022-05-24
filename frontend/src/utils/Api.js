@@ -1,31 +1,36 @@
-import { baseUrl } from "./mestoAuth";
-
 class Api {
-  constructor({ adress }) {
+  constructor({ adress, token }) {
     this._adress = adress;
+    this._token = token;
   }
 
-  _getResponseData(res) {
-    if (!res.ok) {
-      return Promise.reject(res.status);
+  _getResponseData(response) {
+    if (response.ok) {
+      return response.json();
     }
-    return res.json();
+    return response.json().then((data) => {
+      throw data;
+    });
   }
 
   getUserInfo(token) {
     return fetch(`${this._adress}/users/me`, {
+      method: "GET",
       headers: {
-        authorization: `Bearer ${token}`,
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     }).then(this._getResponseData);
   }
 
   getCards(token) {
     return fetch(`${this._adress}/cards`, {
+      method: "GET",
       headers: {
-        authorization: `Bearer ${token}`,
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     }).then(this._getResponseData);
   }
@@ -34,8 +39,9 @@ class Api {
     return fetch(`${this._adress}/users/me`, {
       method: "PATCH",
       headers: {
-        authorization: `Bearer ${token}`,
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         name: name,
@@ -48,8 +54,9 @@ class Api {
     return fetch(`${this._adress}/cards`, {
       method: "POST",
       headers: {
-        authorization: `Bearer ${token}`,
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         name: cardName,
@@ -62,8 +69,9 @@ class Api {
     return fetch(`${this._adress}/cards/${cardId}`, {
       method: "DELETE",
       headers: {
-        authorization: `Bearer ${token}`,
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     }).then(this._getResponseData);
   }
@@ -73,16 +81,18 @@ class Api {
       return fetch(`${this._adress}/cards/${cardId}/likes`, {
         method: "PUT",
         headers: {
-          authorization: `Bearer ${token}`,
+          Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }).then(this._getResponseData);
     } else {
       return fetch(`${this._adress}/cards/${cardId}/likes`, {
         method: "DELETE",
         headers: {
-          authorization: `Bearer ${token}`,
+          Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }).then(this._getResponseData);
     }
@@ -92,8 +102,9 @@ class Api {
     return fetch(`${this._adress}/users/me/avatar`, {
       method: "PATCH",
       headers: {
-        authorization: `Bearer ${token}`,
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         avatar: link,
@@ -103,7 +114,7 @@ class Api {
 }
 
 const api = new Api({
-  adress: baseUrl,
+  adress: "https://api.mine-mesto.nomoredomains.xyz",
 });
 
 export default api;

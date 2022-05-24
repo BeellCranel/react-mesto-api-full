@@ -1,4 +1,4 @@
-export const baseUrl = "https://api.mine-mesto.nomoredomains.xyz";
+const baseUrl = "https://api.mine-mesto.nomoredomains.xyz";
 
 function checkResponse(response) {
   if (response.ok) {
@@ -35,16 +35,4 @@ export function login(identifier, password) {
       email: identifier,
     }),
   }).then(checkResponse);
-}
-
-export function getContent(token) {
-  return fetch(`${baseUrl}/users/me`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then(checkResponse);
 }

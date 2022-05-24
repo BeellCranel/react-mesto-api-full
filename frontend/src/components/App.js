@@ -14,7 +14,7 @@ import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import InfoTooltip from "./InfoTooltip";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
-import * as mestoAuth from "../utils/mestoAuth";
+import * as Auth from "../utils/Auth";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
@@ -35,7 +35,6 @@ function App() {
   // стэйт основных данных
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-  const [userData, setUserData] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
 
@@ -51,18 +50,21 @@ function App() {
 
   // загрузка профеля пользователя и карточек
 
-  useEffect(() => {
-    if (loggedIn) {
-      Promise.all([api.getUserInfo(getToken()), api.getCards(getToken())])
+  function tokenCheck() {
+    const jwt = getToken();
+    if (jwt) {
+      Promise.all([api.getUserInfo(jwt), api.getCards(jwt)])
         .then(([userInfo, initialCards]) => {
           setCurrentUser(userInfo);
           setCards(initialCards);
+          setLoggedIn(true);
+          history.push("/main");
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.message);
         });
     }
-  }, [loggedIn]);
+  }
 
   //функция закрытия всех попапов
 
@@ -86,8 +88,7 @@ function App() {
   // функционал логина
 
   function handleLogin(email, password) {
-    mestoAuth
-      .login(email, password)
+    Auth.login(email, password)
       .then((data) => {
         localStorage.setItem("jwt", data.token);
         tokenCheck();
@@ -99,21 +100,6 @@ function App() {
       });
   }
 
-  function tokenCheck() {
-    if (getToken()) {
-      mestoAuth
-        .getContent(getToken())
-        .then((res) => {
-          setLoggedIn(true);
-          setUserData(res.email);
-          history.push("/main");
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
-  }
-
   function handleLogout() {
     localStorage.removeItem("jwt");
     history.push("/sign-in");
@@ -123,8 +109,7 @@ function App() {
   // функционал регистрации
 
   function handleRegister(email, password) {
-    mestoAuth
-      .register(email, password)
+    Auth.register(email, password)
       .then(() => {
         history.push("/sign-in");
         setIsSuccessMessageTog(true);
@@ -202,7 +187,7 @@ function App() {
     api
       .uploadCard(place, url, getToken())
       .then((card) => {
-        setCards([...cards, card]);
+        setCards([card, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
@@ -243,32 +228,16 @@ function App() {
           isOpen={isNavPopupOpen}
           onClose={closeAllPopups}
           handleLogout={handleLogout}
-          userData={userData}
         />
 
         <Header
           isOpen={handleNavPopupOpen}
           onClose={closeAllPopups}
           isNavPopupOpen={isNavPopupOpen}
-          userData={userData}
           handleLogout={handleLogout}
         />
 
         <Switch>
-          <ProtectedRoute
-            exact
-            path="/main"
-            component={Main}
-            loggedIn={loggedIn}
-            cards={cards}
-            onCardsLike={handleCardLike}
-            onCardClick={handleCardClick}
-            onEditProfile={handleEditProfileClick}
-            onEditAvatar={handleEditAvatarClick}
-            onAddPlace={handleAddPlaceClick}
-            onConfirmDelete={handleConfirmDeleteClick}
-          />
-
           <Route path="/sign-up">
             <Register
               handleRegister={handleRegister}
@@ -278,6 +247,21 @@ function App() {
 
           <Route path="/sign-in">
             <Login handleLogin={handleLogin} />
+          </Route>
+
+          <Route path="/">
+            <ProtectedRoute
+              path="/main"
+              component={Main}
+              loggedIn={loggedIn}
+              cards={cards}
+              onCardsLike={handleCardLike}
+              onCardClick={handleCardClick}
+              onEditProfile={handleEditProfileClick}
+              onEditAvatar={handleEditAvatarClick}
+              onAddPlace={handleAddPlaceClick}
+              onConfirmDelete={handleConfirmDeleteClick}
+            />
           </Route>
         </Switch>
 
