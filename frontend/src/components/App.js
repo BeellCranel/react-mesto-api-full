@@ -187,7 +187,7 @@ function App() {
     api
       .uploadCard(place, url, getToken())
       .then((card) => {
-        setCards([card, ...cards]);
+        setCards([...cards, card]);
         closeAllPopups();
       })
       .catch((err) => {
