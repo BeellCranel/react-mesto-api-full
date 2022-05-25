@@ -24,7 +24,7 @@ const deleteCard = (req, res, next) => {
     .then((card) => {
       if (!card) throw new NotFoundError('Карточка с указанным _id не найдена');
       if (card.owner.toString() !== req.user._id.toString()) { throw new ForbiddenError('Карточка создана другим пользователем'); }
-      Card.findByIdAndRemove(req.params.cardId).then(() => res.status(200).send(card));
+      return Card.findByIdAndRemove(req.params.cardId).then(() => res.status(200).send(card));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
