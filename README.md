@@ -47,7 +47,7 @@
 ### Интро
 
 Здесь будет проект Место: интерактивная страница, где можно регистрироваться, добавлять фотографии, удалять их и ставить лайки ❤️.
-- [ссылка на мою работу](https://mine-mesto.nomoredomains.xyz/)
+- [ссылка на мою работу](https://mine-mesto.nomoredomains.xyz/target="_blank")
 - домен фронта: mine-mesto.nomoredomains.xyz
 - домен бэка: api.mine-mesto.nomoredomains.xyz
 - публичный IP-адрес: 51.250.104.42
